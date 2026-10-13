@@ -41,6 +41,8 @@ export default function ContactForm() {
       return;
     }
     const { website, ...data } = v;
+    const mailBody = `Name: ${data.name}\nEmail: ${data.email}\nCompany: ${data.company || '-'}\nPhone: ${data.phone || '-'}\nService: ${data.service}\n\n${data.message}`;
+    const mailto = `mailto:${SITE.email}?subject=${encodeURIComponent(FORM_SUBJECT)}&body=${encodeURIComponent(mailBody)}`;
 
     if (FORM_ENDPOINT) {
       setSending(true);
@@ -66,17 +68,16 @@ export default function ContactForm() {
         if (!r.ok || String(res.success) === 'false') throw new Error(res.message || String(r.status));
         setV(empty);
         setStatus({ ok: true, title: 'Message sent.', text: `Thanks, ${data.name.split(' ')[0]}. We'll reply to ${data.email} soon.` });
-      } catch {
-        setStatus({ ok: false, title: 'Your message did not send.', text: `Please try again, or email us directly at ${SITE.email}.` });
+      } catch (err) {
+        console.error('[contact form]', err?.message || err);
+        setStatus({ ok: false, title: 'Your message did not send.', text: `You can send the same message from your email app instead, or write to ${SITE.email}.`, mailto });
       } finally {
         setSending(false);
       }
       return;
     }
 
-    const subject = FORM_SUBJECT;
-    const body = `Name: ${data.name}\nEmail: ${data.email}\nCompany: ${data.company || '-'}\nPhone: ${data.phone || '-'}\nService: ${data.service}\n\n${data.message}`;
-    window.location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
     setStatus({ ok: true, title: 'Your message is ready in your email app.', text: `Press send there to reach us. If no email window opened, write to ${SITE.email} and we will pick it up.` });
   };
 
@@ -120,6 +121,7 @@ export default function ContactForm() {
       {status && (
         <div className={`status${status.ok ? '' : ' fail'}`} role="status">
           <b>{status.title}</b><p>{status.text}</p>
+          {status.mailto && <a className="btn btn-ghost status-btn" href={status.mailto}>Open in my email app <span className="arr">→</span></a>}
         </div>
       )}
     </form>
