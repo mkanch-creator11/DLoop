@@ -44,16 +44,12 @@ Routing files are included so links like `/sales-enablement` work when opened di
 
 ## Contact form
 
-By default the form opens the visitor's email app with the message addressed to contact@digitalloop.co.
+Form submissions are emailed to **contact@digitalloop.co** with the subject **"website lead"**, using FormSubmit (formsubmit.co). There's no account or API key.
 
-To receive submissions directly by email:
+One-time activation: after the site is live, submit the form once yourself. FormSubmit emails an activation link to contact@digitalloop.co. Click it, and every submission after that arrives in the inbox. Until then, visitors see a "did not send" message pointing them to the email address.
 
-1. Create a free form at https://formspree.io (or similar) using contact@digitalloop.co.
-2. Copy the endpoint URL (looks like `https://formspree.io/f/abcdwxyz`).
-3. Create a file named `.env` in the project folder containing:
-   `VITE_FORM_ENDPOINT=https://formspree.io/f/abcdwxyz`
-4. Run `npm run build` again and upload the new `dist/`.
+To change the subject line, edit `FORM_SUBJECT` in `src/config.js`. To use another form service, set `VITE_FORM_ENDPOINT` in Vercel → Settings → Environment Variables and redeploy.
 
 ## Before launch
 
-- Replace the placeholder LinkedIn, Facebook and Instagram URLs in `src/config.js` (and in `index.html` structured data).
+- Replace the placeholder LinkedIn and Instagram URLs in `src/config.js` (and in `index.html` structured data).

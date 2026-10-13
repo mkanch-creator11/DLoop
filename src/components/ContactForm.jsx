@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { FORM_ENDPOINT, SITE } from '../config.js';
+import { FORM_ENDPOINT, FORM_SUBJECT, SITE } from '../config.js';
 import { serviceOptions } from '../data/linkedin.js';
 
 const empty = { name: '', email: '', company: '', phone: '', service: '', message: '', website: '' };
@@ -48,9 +48,22 @@ export default function ContactForm() {
         const r = await fetch(FORM_ENDPOINT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(data),
+          body: JSON.stringify({
+            _subject: FORM_SUBJECT,
+            _template: 'table',
+            _captcha: 'false',
+            _replyto: data.email,
+            Name: data.name,
+            email: data.email,
+            Company: data.company || '-',
+            Phone: data.phone || '-',
+            Service: data.service,
+            Message: data.message,
+            Page: window.location.href,
+          }),
         });
-        if (!r.ok) throw new Error(String(r.status));
+        const res = await r.json().catch(() => ({}));
+        if (!r.ok || String(res.success) === 'false') throw new Error(res.message || String(r.status));
         setV(empty);
         setStatus({ ok: true, title: 'Message sent.', text: `Thanks, ${data.name.split(' ')[0]}. We'll reply to ${data.email} soon.` });
       } catch {
@@ -61,7 +74,7 @@ export default function ContactForm() {
       return;
     }
 
-    const subject = `Enquiry: ${data.service}${data.company ? ` — ${data.company}` : ''}`;
+    const subject = FORM_SUBJECT;
     const body = `Name: ${data.name}\nEmail: ${data.email}\nCompany: ${data.company || '-'}\nPhone: ${data.phone || '-'}\nService: ${data.service}\n\n${data.message}`;
     window.location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setStatus({ ok: true, title: 'Your message is ready in your email app.', text: `Press send there to reach us. If no email window opened, write to ${SITE.email} and we will pick it up.` });
