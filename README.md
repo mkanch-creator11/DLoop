@@ -33,7 +33,7 @@ Routing files are included so links like `/sales-enablement` work when opened di
 
 | What | File |
 |---|---|
-| Email, domain, social links, form endpoint | `src/config.js` |
+| Email, domain, social links, WhatsApp number, form endpoint | `src/config.js` |
 | Sales Enablement content (process, services, challenges) | `src/data/enablement.js` |
 | LinkedIn funnel, packages, comparison table | `src/data/linkedin.js` |
 | Page layouts | `src/pages/*.jsx` |

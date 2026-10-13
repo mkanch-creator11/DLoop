@@ -418,3 +418,41 @@ section.block.tight{padding-block:clamp(40px,6vw,72px)}
 .status.fail{border-color:rgba(255,138,122,.55);background:rgba(255,138,122,.08)}
 .btn:disabled{opacity:.6;cursor:progress}
 .nf{min-height:50vh}
+
+/* ---------- WhatsApp chat widget ---------- */
+:root{--wa:#25D366;--wa-deep:#128C7E}
+.wa{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:80;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.wa-fab{position:relative;width:60px;height:60px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,var(--wa),var(--wa-deep));box-shadow:0 12px 30px -8px rgba(37,211,102,.6),0 0 0 1px rgba(255,255,255,.08) inset;transition:transform .2s, box-shadow .2s}
+.wa-fab::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--wa);animation:wa-ping 2.6s cubic-bezier(.2,.7,.2,1) infinite;pointer-events:none}
+.wa-fab.is-open::before{display:none}
+.wa-fab:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 16px 36px -8px rgba(37,211,102,.75)}
+.wa-fab:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+.wa-fab-x{font-size:30px;line-height:1;font-weight:300}
+@keyframes wa-ping{0%{transform:scale(1);opacity:.7}80%,100%{transform:scale(1.55);opacity:0}}
+.wa-tip{position:absolute;right:calc(100% + 12px);top:50%;transform:translate(6px,-50%);white-space:nowrap;font:600 13px var(--body);color:var(--fg);background:var(--panel);border:1px solid var(--line-strong);padding:7px 12px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .2s, transform .2s}
+.wa-fab:hover .wa-tip{opacity:1;transform:translate(0,-50%)}
+.wa-fab.is-open .wa-tip{display:none}
+@media (hover:none){.wa-tip{display:none}}
+.wa-panel{width:min(360px,calc(100vw - 32px));background:var(--panel);border:1px solid var(--line-strong);border-radius:18px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(0,0,0,.7);animation:wa-in .25s cubic-bezier(.2,.7,.2,1) both;transform-origin:bottom right}
+@keyframes wa-in{from{transform:translateY(10px) scale(.97);opacity:0}}
+.wa-head{display:flex;align-items:center;gap:12px;padding:14px 14px 14px 16px;background:linear-gradient(135deg,var(--wa-deep),#0B5E55);color:#fff}
+.wa-head div{display:grid;flex:1;min-width:0}
+.wa-head b{font-family:var(--display);font-weight:500;font-size:15px}
+.wa-head span{font-size:12px;opacity:.85}
+.wa-avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.16)}
+.wa-x{background:none;border:0;color:#fff;font-size:26px;line-height:1;width:34px;height:34px;border-radius:8px;cursor:pointer}
+.wa-x:hover{background:rgba(255,255,255,.14)}
+.wa-body{padding:16px;display:grid;gap:12px;background:radial-gradient(120% 80% at 0% 0%,rgba(37,211,102,.06),transparent 60%),var(--ink-2)}
+.wa-bubble{background:var(--panel-2);border:1px solid var(--line);border-radius:4px 14px 14px 14px;padding:10px 12px;font-size:14px;color:var(--fg)}
+.wa-topics{display:flex;flex-wrap:wrap;gap:6px}
+.wa-topics button{font:600 12.5px var(--body);color:var(--muted);background:transparent;border:1px solid var(--line-strong);border-radius:999px;padding:6px 10px;cursor:pointer;transition:all .15s}
+.wa-topics button:hover{color:var(--fg);border-color:var(--wa)}
+.wa-topics button.on{color:#04140B;background:var(--wa);border-color:var(--wa)}
+.wa-body textarea{width:100%;resize:vertical;min-height:72px;font:500 14px var(--body);color:var(--fg);background:var(--ink);border:1px solid var(--line-strong);border-radius:10px;padding:10px 12px}
+.wa-body textarea:focus{outline:none;border-color:var(--wa);box-shadow:0 0 0 3px rgba(37,211,102,.2)}
+.wa-send{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;background:var(--wa);color:#04140B;font-weight:700;font-size:14px;text-decoration:none;transition:filter .2s, transform .2s}
+.wa-send:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.wa-chip{margin-left:auto;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:8px;border:1px solid rgba(37,211,102,.5);color:var(--wa);text-decoration:none;font:600 13px var(--body)}
+.wa-chip:hover{background:rgba(37,211,102,.1)}
+footer{padding-bottom:96px}
+@media (prefers-reduced-motion:reduce){.wa-fab::before{display:none}}

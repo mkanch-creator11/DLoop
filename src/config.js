@@ -19,3 +19,12 @@ export const SOCIALS = [
 // Paste a form-service endpoint (e.g. https://formspree.io/f/xxxxxxx) to receive
 // submissions by email. Left empty, the form opens the visitor's email app instead.
 export const FORM_ENDPOINT = import.meta.env.VITE_FORM_ENDPOINT || '';
+
+// WhatsApp chat (number in international format, digits only).
+export const WHATSAPP = {
+  number: '923032531461',
+  display: '+92 303 2531461',
+};
+
+export const whatsappLink = (text = '') =>
+  `https://wa.me/${WHATSAPP.number}${text ? `?text=${encodeURIComponent(text)}` : ''}`;

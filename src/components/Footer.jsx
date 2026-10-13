@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
-import { SITE } from '../config.js';
+import { SITE, WHATSAPP, whatsappLink } from '../config.js';
 import SocialLinks from './SocialLinks.jsx';
 
 export default function Footer() {
@@ -25,6 +25,7 @@ export default function Footer() {
               <Link to="/about">About</Link>
               <Link to="/contact">Contact</Link>
               <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+              <a href={whatsappLink()} target="_blank" rel="noopener noreferrer">WhatsApp {WHATSAPP.display}</a>
             </div>
             <div>
               <h4>Follow</h4>
